@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import moguBackend.TimeStamp;
 
+@Entity
 @Getter
 @Setter
 @Builder

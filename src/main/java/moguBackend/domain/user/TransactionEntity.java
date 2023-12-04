@@ -1,10 +1,9 @@
 package moguBackend.domain.user;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import moguBackend.constant.Status;
 
+@Entity
 @Getter
 @Setter
 @Builder

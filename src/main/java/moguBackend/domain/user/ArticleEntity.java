@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import moguBackend.TimeStamp;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
