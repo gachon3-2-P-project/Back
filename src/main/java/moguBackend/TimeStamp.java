@@ -19,12 +19,13 @@ public abstract class TimeStamp {
 
 
     @CreatedDate
-    private LocalTime createAt;
+    private LocalTime createdAt;
+
 
     @PrePersist
     public void prePersist() {
         LocalTime now = LocalTime.now();
-        createAt = now;
+        createdAt = now;
     }
 
 

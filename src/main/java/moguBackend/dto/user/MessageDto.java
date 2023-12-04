@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class MessageDto {
@@ -40,7 +41,7 @@ public class MessageDto {
 
         private String content; //내용
 
-        private LocalDate createAt;
+        private LocalTime createdAt;
 
 
 

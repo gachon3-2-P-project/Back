@@ -10,6 +10,7 @@ import moguBackend.domain.user.MessageEntity;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class UserDto {
@@ -51,11 +52,11 @@ public class UserDto {
 
         private String email;
 
-        private List<ArticleEntity> articles;
+//        private List<ArticleEntity> articles;
+//
+//        private List<MessageEntity> messages;
 
-        private List<MessageEntity> messages;
-
-        private LocalDate createAt;
+        private LocalTime createdAt;
 
     }
 

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ArticleDto {
@@ -46,9 +47,11 @@ public class ArticleDto {
 
         private Integer complain; // 게시글 신고 횟수 (최대 5회)
 
-        private List<MessageDto.MessageResponseDto> messages;
+//        private List<MessageDto.MessageResponseDto> messages;
 
-        private LocalDate createAt;
+        private Integer numberOfPeople; //인원 수
+
+        private LocalTime createdAt;
 
 
 
@@ -65,6 +68,8 @@ public class ArticleDto {
         private String title; //제목
 
         private String content; //내용
+
+        private Integer numberOfPeople; //인원 수
 
         private Integer complain; // 게시글 신고 횟수 (최대 5회)
 

@@ -26,7 +26,6 @@ public class TransactionDto {
 
         private Status completionStatus;
 
-        private LocalDate createAt;
 
 
 
