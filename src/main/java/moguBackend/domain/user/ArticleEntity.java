@@ -36,9 +36,9 @@ public class ArticleEntity extends TimeStamp {
 
     private Integer complain; // 게시글 신고 횟수 (최대 10회)
 
-//    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-//    @JsonBackReference
-//    private List<MessageEntity> messages = new ArrayList<>();
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    //@JsonBackReference
+    private List<MessageEntity> messages = new ArrayList<>();
 
 
 

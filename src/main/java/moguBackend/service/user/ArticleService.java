@@ -3,11 +3,14 @@ package moguBackend.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moguBackend.domain.user.ArticleEntity;
+import moguBackend.domain.user.MessageEntity;
 import moguBackend.domain.user.UserEntity;
 import moguBackend.dto.user.ArticleDto;
+import moguBackend.dto.user.MessageDto;
 import moguBackend.exception.BusinessLogicException;
 import moguBackend.exception.ExceptionCode;
 import moguBackend.mapper.user.ArticleMapper;
+import moguBackend.mapper.user.MessageMapper;
 import moguBackend.repository.user.ArticleRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
     private final UserRepository userRepository;
+    private final MessageMapper messageMapper;
 
     /**
      * 게시물 등록
@@ -57,19 +61,37 @@ public class ArticleService {
 
     }
 
-//    /**
-//     * 해당 게시물 쪽지 조회
-//     */
-//
-//
-//    public ArticleDto.ArticleResponseDto getArticleMessages(Long articleId) {
-//
-//        ArticleEntity articleEntity = articleRepository.findById(articleId)
-//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
-//
-//        return articleMapper.toResponseDto(articleEntity);
-//
-//    }
+    /**
+     * 해당 게시물 쪽지 조회
+     */
+
+
+    public List<ArticleDto.ArticleResponseDto> getArticleMessages(Long articleId) {
+
+        ArticleEntity articleEntity = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        // 게시물과 연관된 메시지들
+        List<MessageEntity> messages = articleEntity.getMessages();
+        List<MessageDto.MessageResponseDto> messageDtos = new ArrayList<>();
+
+        // 메시지들을 DTO로 변환하여 리스트에 추가
+        for (MessageEntity messageEntity : messages) {
+            MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(messageEntity);
+
+            messageResponseDto.setUserId(messageEntity.getUser().getId());
+            messageResponseDto.setNickName(messageEntity.getUser().getNickName());
+
+            messageDtos.add(messageResponseDto);
+        }
+
+        List<ArticleDto.ArticleResponseDto> result = new ArrayList<>();
+        ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
+        articleResponseDto.setMessages(messageDtos);
+        result.add(articleResponseDto);
+
+        return result;
+    }
 
 
 
@@ -88,21 +110,21 @@ public class ArticleService {
         for (ArticleEntity articleEntity : articleEntities) {
             ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
 
-            //TODO: 쪽지도 같이 조회 ?
-//            // 가져온 댓글들을 매핑할 때 userId와 nickName을 설정
-//            List<MessageEntity> Messages = articleEntity.getMessages();
-//            List<MessageDto.MessageResponseDto> MessageDtos = new ArrayList<>();
-//            for (MessageEntity MessageEntity : Messages) {
-//                MessageDto.MessageResponseDto MessageResponseDto = MessageMapper.toResponseDto(MessageEntity);
-//
-//                // 추가로 필요한 매핑이 있다면 여기에 계속해서 추가
-//                MessageResponseDto.setUserId(MessageEntity.getUser().getId());
-//                MessageResponseDto.setNickName(MessageEntity.getUser().getNickName());
-//
-//                MessageDtos.add(MessageResponseDto);
-//            }
-//
-//            articleResponseDto.setMessages(MessageDtos);
+
+            //게시물에 관련된 쪽지도 같이 조회하는 로직
+            List<MessageEntity> Messages = articleEntity.getMessages();
+            List<MessageDto.MessageResponseDto> MessageDtos = new ArrayList<>();
+            for (MessageEntity MessageEntity : Messages) {
+                MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(MessageEntity);
+
+
+                messageResponseDto.setUserId(MessageEntity.getUser().getId());
+                messageResponseDto.setNickName(MessageEntity.getUser().getNickName());
+
+                MessageDtos.add(messageResponseDto);
+            }
+
+            articleResponseDto.setMessages(MessageDtos);
             articleResponseDtos.add(articleResponseDto);
         }
 

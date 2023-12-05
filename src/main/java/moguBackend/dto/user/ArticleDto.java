@@ -41,13 +41,15 @@ public class ArticleDto {
 
         private Long userId; //게시물 작성한 사용자 id
 
+        private String nickName;
+
         private String title; //제목
 
         private String content; //내용
 
         private Integer complain; // 게시글 신고 횟수 (최대 5회)
 
-//        private List<MessageDto.MessageResponseDto> messages;
+        private List<MessageDto.MessageResponseDto> messages;
 
         private Integer numberOfPeople; //인원 수
 

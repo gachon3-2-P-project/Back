@@ -36,6 +36,8 @@ public class MessageDto {
 
         private Long userId; //게시물 작성한 사용자 id
 
+        private String nickName; //게시물 작성한 사용자 nickName
+
         private Long articleId; //해당 거래 게시물 id
 
         private String receiver; // 수신자 닉네임

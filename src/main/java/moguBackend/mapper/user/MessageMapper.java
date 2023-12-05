@@ -19,13 +19,14 @@ public interface MessageMapper {
     /**
      * Entity -> Dto
      */
-    @Mapping(source = "user.id", target = "userId") //게시글 작성자 매핑
-    @Mapping(source = "article.id", target = "articleId") //게시글 작성자 매핑
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "article.id", target = "articleId")
+    @Mapping(source = "user.nickName", target = "nickName")
     MessageDto.MessageResponseDto toResponseDto(MessageEntity messageEntity);
 
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", source = "userEntity")//게시글 작성자 매핑
+    @Mapping(target = "user", source = "userEntity")
     @Mapping(target = "article", source = "articleEntity")
     @Mapping(target = "content", source = "messageRequestDto.content")
     MessageEntity toRequestEntity(MessageDto.MessageRequestDto messageRequestDto, UserEntity userEntity, ArticleEntity articleEntity);
