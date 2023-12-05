@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import moguBackend.TimeStamp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -32,6 +35,11 @@ public class ArticleEntity extends TimeStamp {
     private Integer numberOfPeople; //인원 수
 
     private Integer complain; // 게시글 신고 횟수 (최대 10회)
+
+//    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    private List<MessageEntity> messages = new ArrayList<>();
+
 
 
 }

@@ -15,8 +15,13 @@ public interface ArticleMapper {
     /**
      * Entity -> Dto
      */
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(target = "id", source = "articleEntity.id")
+    @Mapping(target = "userId", source = "articleEntity.user.id")
     ArticleDto.ArticleResponseDto toResponseDto(ArticleEntity articleEntity);
+
+
+
+
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", source = "userEntity")
@@ -26,7 +31,7 @@ public interface ArticleMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "user", ignore = true)
+            @Mapping(target = "user", ignore = true),
     })
     public void updateFromPatchDto(ArticleDto.ArticlePatchDto articlePatchDto, @MappingTarget ArticleEntity articleEntity);
 

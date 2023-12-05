@@ -43,7 +43,7 @@ public enum ExceptionCode {
     ADMIN_NOT_FOUND(NOT_FOUND, "해당 관리자 정보를 찾을 수 업습니다"),
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다"),
     ARTICLE_NOT_EXIST(NOT_FOUND, "해당 게시물이 존재하지 않습니다"),
-    COMMENT_IS_NOT_EXIST(NOT_FOUND, "해당 쪽지가 존재하지 않습니다"),
+    Message_IS_NOT_EXIST(NOT_FOUND, "해당 쪽지가 존재하지 않습니다"),
     KEYWORD_IS_NOT_EXIST(NOT_FOUND, "해당 키워드가 존재하지 않습니다"),
 
 

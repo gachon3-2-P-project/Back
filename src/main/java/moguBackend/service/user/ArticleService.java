@@ -12,10 +12,8 @@ import moguBackend.repository.user.ArticleRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +57,25 @@ public class ArticleService {
 
     }
 
+//    /**
+//     * 해당 게시물 쪽지 조회
+//     */
+//
+//
+//    public ArticleDto.ArticleResponseDto getArticleMessages(Long articleId) {
+//
+//        ArticleEntity articleEntity = articleRepository.findById(articleId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+//
+//        return articleMapper.toResponseDto(articleEntity);
+//
+//    }
+
+
+
+
+
+
     /**
      * 전체 게시물 조회
      */
@@ -71,21 +88,21 @@ public class ArticleService {
         for (ArticleEntity articleEntity : articleEntities) {
             ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
 
-            //쪽지로 수정
+            //TODO: 쪽지도 같이 조회 ?
 //            // 가져온 댓글들을 매핑할 때 userId와 nickName을 설정
-//            List<CommentEntity> comments = articleEntity.getComments();
-//            List<CommentDto.CommentResponseDto> commentDtos = new ArrayList<>();
-//            for (CommentEntity commentEntity : comments) {
-//                CommentDto.CommentResponseDto commentResponseDto = commentMapper.toResponseDto(commentEntity);
+//            List<MessageEntity> Messages = articleEntity.getMessages();
+//            List<MessageDto.MessageResponseDto> MessageDtos = new ArrayList<>();
+//            for (MessageEntity MessageEntity : Messages) {
+//                MessageDto.MessageResponseDto MessageResponseDto = MessageMapper.toResponseDto(MessageEntity);
 //
 //                // 추가로 필요한 매핑이 있다면 여기에 계속해서 추가
-//                commentResponseDto.setUserId(commentEntity.getUser().getId());
-//                commentResponseDto.setNickName(commentEntity.getUser().getNickName());
+//                MessageResponseDto.setUserId(MessageEntity.getUser().getId());
+//                MessageResponseDto.setNickName(MessageEntity.getUser().getNickName());
 //
-//                commentDtos.add(commentResponseDto);
+//                MessageDtos.add(MessageResponseDto);
 //            }
 //
-//            articleResponseDto.setComments(commentDtos);
+//            articleResponseDto.setMessages(MessageDtos);
             articleResponseDtos.add(articleResponseDto);
         }
 

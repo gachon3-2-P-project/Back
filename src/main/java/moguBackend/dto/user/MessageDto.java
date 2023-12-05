@@ -16,6 +16,7 @@ public class MessageDto {
     @Builder
     public static class MessageRequestDto {
 
+        private Long articleId;
 
         private String content; //내용
 
