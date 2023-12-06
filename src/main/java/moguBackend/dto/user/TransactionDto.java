@@ -1,11 +1,7 @@
 package moguBackend.dto.user;
-
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import moguBackend.constant.Status;
 
-import java.time.LocalDate;
-import java.util.List;
 
 public class TransactionDto {
 

@@ -69,4 +69,24 @@ public class ArticleController {
         List<ArticleDto.ArticleResponseDto> articles = articleService.getAllArticle();
         return ResponseEntity.ok().body(articles);
     }
+
+    /**
+     * 해당 게시물 쪽지 조회
+     */
+    @GetMapping("/getArticleMessages")
+    public ResponseEntity<List<ArticleDto.ArticleResponseDto>> getArticleMessages(@RequestParam Long articleId) {
+        List<ArticleDto.ArticleResponseDto> articlesWithMessages = articleService.getArticleMessages(articleId);
+        return ResponseEntity.ok().body(articlesWithMessages);
+    }
+
+    /**
+     * 게시물 수정
+     */
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateArticle(@RequestParam("articleId") Long articleId, @RequestBody ArticleDto.ArticlePatchDto articlePatchDto) {
+        return ResponseEntity.ok().body(articleService.updateArticle(articleId, articlePatchDto));
+    }
+
+
+
 }

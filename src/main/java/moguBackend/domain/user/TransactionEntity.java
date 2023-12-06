@@ -25,10 +25,10 @@ public class TransactionEntity {
     private ArticleEntity article;
 
     @Enumerated(EnumType.STRING)
-    private Status approvalStatus = Status.INACTIVE; //거래 승인 상태
+    private Status approvalStatus; //거래 승인 상태
 
     @Enumerated(EnumType.STRING)
-    private Status completionStatus = Status.INACTIVE; //거래 완료 상태
+    private Status completionStatus; //거래 완료 상태
 
 
 
