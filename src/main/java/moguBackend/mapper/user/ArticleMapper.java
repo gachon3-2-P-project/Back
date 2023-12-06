@@ -33,6 +33,9 @@ public interface ArticleMapper {
 
     //toResponseDto 메서드에서 messages 필드를 처리할 때 사용
     default List<MessageDto.MessageResponseDto> mapMessageEntitiesToDto(List<MessageEntity> messages) {
+        if (messages == null) {
+            return null;
+        }
         return messages.stream()
                 .map(this::toMessageResponseDto)
                 .collect(Collectors.toList());
