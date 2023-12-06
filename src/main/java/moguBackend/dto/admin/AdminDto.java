@@ -19,7 +19,7 @@ public class AdminDto {
         private String password;
 
         @NotBlank
-        private String adminName; //로그인 아이디
+        private String username; //로그인 아이디
 
 
     }
@@ -32,7 +32,7 @@ public class AdminDto {
     public static class AdminResponseDto {
         private Long id;
 
-        private String adminName; //로그인 아이디
+        private String username; //로그인 아이디
 
     }
 }

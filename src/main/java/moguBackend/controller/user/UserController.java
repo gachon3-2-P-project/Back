@@ -1,6 +1,7 @@
 package moguBackend.controller.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moguBackend.dto.user.ArticleDto;
 import moguBackend.dto.user.UserDto;
 import moguBackend.service.user.UserService;
@@ -9,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
+
 
     /**
      * 유저 고유 id로 조회

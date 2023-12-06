@@ -2,13 +2,15 @@ package moguBackend.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.constant.Role;
+import moguBackend.constant.Status;
 import moguBackend.domain.user.UserEntity;
 import moguBackend.dto.user.UserDto;
 import moguBackend.exception.BusinessLogicException;
 import moguBackend.exception.ExceptionCode;
 import moguBackend.mapper.user.UserMapper;
 import moguBackend.repository.user.UserRepository;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-   // private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 회원 생성
@@ -34,10 +36,11 @@ public class UserService {
 
 
         //encoding
-//        if (userRequestDto.getPassword() != null)
-//            userRequestDto.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
+        if (userRequestDto.getPassword() != null)
+            userRequestDto.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
         // RequestDto -> Entity
         UserEntity userEntity = userMapper.toRequestEntity(userRequestDto);
+        userEntity.setRole(Role.USER);
 
         // DB에 Entity 저장
         UserEntity savedUser = userRepository.save(userEntity);

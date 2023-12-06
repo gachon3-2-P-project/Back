@@ -2,6 +2,7 @@ package moguBackend.domain.admin;
 
 import jakarta.persistence.*;
 import lombok.*;
+import moguBackend.config.spring_security.PersonEntity;
 import moguBackend.constant.Role;
 
 @Entity
@@ -10,14 +11,14 @@ import moguBackend.constant.Role;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminEntity {
+public class AdminEntity implements PersonEntity {
 
     @Id
     @Column(name = "admin_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String adminName; //관리자 아이디
+    private String username; //관리자 아이디
 
     private String password;
 
