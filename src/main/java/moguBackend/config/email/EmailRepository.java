@@ -7,4 +7,6 @@ public interface EmailRepository extends JpaRepository<EmailAuth, Long> {
 
     EmailAuth findByEmail(String email);
 
+    void deleteByEmail(String email);
+
 }

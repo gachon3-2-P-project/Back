@@ -72,7 +72,7 @@ public class UserService {
     }
 
     @Transactional
-    private String createCode() {
+    public String createCode() {
         int lenth = 6; //6자리 랜덤 코드
         try {
             Random random = SecureRandom.getInstanceStrong();
