@@ -45,6 +45,9 @@ public enum ExceptionCode {
     ARTICLE_NOT_EXIST(NOT_FOUND, "해당 게시물이 존재하지 않습니다"),
     Message_IS_NOT_EXIST(NOT_FOUND, "해당 쪽지가 존재하지 않습니다"),
     KEYWORD_IS_NOT_EXIST(NOT_FOUND, "해당 키워드가 존재하지 않습니다"),
+    UNABLE_TO_SEND_EMAIL(NOT_FOUND, "메일을 보낼 수 없습니다"),
+    NO_SUCH_ALGORITHM(NOT_FOUND, "인증 코드를 생성할 수 없습니다"),
+    EMAIL_AUTH_NOT_FOUND(NOT_FOUND, "인증 코드를 확인할 수 없습니다."),
 
 
     /**

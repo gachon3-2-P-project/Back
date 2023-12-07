@@ -58,6 +58,8 @@ public class UserDto {
 
         private LocalTime createdAt;
 
+        private String emailCode;
+
     }
 
     @Getter
@@ -72,4 +74,5 @@ public class UserDto {
         private String nickName; //닉네임 수정
 
     }
+
 }
