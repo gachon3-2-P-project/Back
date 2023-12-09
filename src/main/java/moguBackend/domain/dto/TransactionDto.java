@@ -1,6 +1,6 @@
-package moguBackend.dto.user;
+package moguBackend.domain.dto;
 import lombok.*;
-import moguBackend.constant.Status;
+import moguBackend.common.Status;
 
 
 public class TransactionDto {

@@ -1,6 +1,6 @@
 package moguBackend.config.spring_security;
 
-import moguBackend.constant.Role;
+import moguBackend.common.Role;
 
 public interface PersonEntity {
 

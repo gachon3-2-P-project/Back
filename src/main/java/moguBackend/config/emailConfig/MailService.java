@@ -1,4 +1,4 @@
-package moguBackend.config.email;
+package moguBackend.config.emailConfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class MailService {
             emailSender.send(emailForm);
 
         } catch (MailException e) {
-            log.error("Error while sending email", e);
+            log.error("Error while sending emailConfig", e);
             log.debug("MailService.sendEmail exception occur toEmail: {}, " +
                     "title: {}, text: {}", toEmail, title, text);
             throw new BusinessLogicException(ExceptionCode.UNABLE_TO_SEND_EMAIL);

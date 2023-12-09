@@ -30,7 +30,7 @@ public class EmailTest {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("bony9728@gmail.com"));
             message.setSubject("Test Subject");
-            message.setText("This is a test email.");
+            message.setText("This is a test emailConfig.");
 
             Transport.send(message);
 

@@ -1,4 +1,4 @@
-package moguBackend.dto.admin;
+package moguBackend.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

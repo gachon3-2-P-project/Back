@@ -1,10 +1,10 @@
-package moguBackend.domain.user;
+package moguBackend.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import moguBackend.TimeStamp;
+import moguBackend.common.TimeStamp;
 import moguBackend.config.spring_security.PersonEntity;
-import moguBackend.constant.Role;
+import moguBackend.common.Role;
 
 @Entity
 @Getter

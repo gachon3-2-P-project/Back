@@ -1,7 +1,7 @@
-package moguBackend.mapper.user;
+package moguBackend.domain.mapper;
 
-import moguBackend.domain.user.UserEntity;
-import moguBackend.dto.user.UserDto;
+import moguBackend.domain.entity.UserEntity;
+import moguBackend.domain.dto.UserDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

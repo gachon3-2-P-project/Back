@@ -1,19 +1,10 @@
 package moguBackend.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moguBackend.constant.Status;
-import moguBackend.domain.user.ArticleEntity;
-import moguBackend.domain.user.TransactionEntity;
-import moguBackend.domain.user.UserEntity;
-import moguBackend.dto.user.ArticleDto;
-import moguBackend.dto.user.TransactionDto;
-import moguBackend.exception.BusinessLogicException;
-import moguBackend.exception.ExceptionCode;
-import moguBackend.mapper.user.TransactionMapper;
+import moguBackend.domain.mapper.TransactionMapper;
 import moguBackend.repository.user.TransactionRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

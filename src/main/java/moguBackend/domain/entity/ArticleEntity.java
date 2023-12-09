@@ -1,9 +1,8 @@
-package moguBackend.domain.user;
+package moguBackend.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import moguBackend.TimeStamp;
+import moguBackend.common.TimeStamp;
 
 import java.util.ArrayList;
 import java.util.List;

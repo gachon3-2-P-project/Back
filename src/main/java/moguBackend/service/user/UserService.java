@@ -2,15 +2,15 @@ package moguBackend.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moguBackend.config.email.EmailAuthEntity;
-import moguBackend.config.email.EmailRepository;
-import moguBackend.config.email.MailService;
-import moguBackend.constant.Role;
-import moguBackend.domain.user.UserEntity;
-import moguBackend.dto.user.UserDto;
+import moguBackend.config.emailConfig.EmailAuthEntity;
+import moguBackend.config.emailConfig.EmailRepository;
+import moguBackend.config.emailConfig.MailService;
+import moguBackend.common.Role;
+import moguBackend.domain.entity.UserEntity;
+import moguBackend.domain.dto.UserDto;
 import moguBackend.exception.BusinessLogicException;
 import moguBackend.exception.ExceptionCode;
-import moguBackend.mapper.user.UserMapper;
+import moguBackend.domain.mapper.UserMapper;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -84,9 +83,9 @@ public class UserService {
      * 이미 회원가입한 회원인지 확인하는 메서드
      */
     private void checkDuplicatedEmail(String username) {
-        Optional<UserEntity> user = Optional.ofNullable(userRepository.findByUsername(username)); //username == email
+        Optional<UserEntity> user = Optional.ofNullable(userRepository.findByUsername(username)); //username == emailConfig
         if (user.isPresent()) {
-            log.debug("MemberServiceImpl.checkDuplicatedEmail exception occur email: {}", username);
+            log.debug("MemberServiceImpl.checkDuplicatedEmail exception occur emailConfig: {}", username);
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
     }

@@ -1,7 +1,7 @@
-package moguBackend.mapper.admin;
+package moguBackend.domain.mapper;
 
-import moguBackend.domain.admin.AdminEntity;
-import moguBackend.dto.admin.AdminDto;
+import moguBackend.domain.entity.AdminEntity;
+import moguBackend.domain.dto.AdminDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

@@ -1,18 +1,12 @@
 package moguBackend.controller.user;
 
 import lombok.RequiredArgsConstructor;
-import moguBackend.dto.user.ArticleDto;
-import moguBackend.dto.user.TransactionDto;
-import moguBackend.service.user.ArticleService;
 import moguBackend.service.user.TransactionService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("transaction")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     private TransactionService transactionService;

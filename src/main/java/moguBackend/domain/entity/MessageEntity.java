@@ -1,7 +1,8 @@
-package moguBackend.domain.user;
+package moguBackend.domain.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
-import moguBackend.constant.Status;
+import moguBackend.common.TimeStamp;
 
 @Entity
 @Getter
@@ -9,10 +10,10 @@ import moguBackend.constant.Status;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionEntity {
+public class MessageEntity extends TimeStamp{
 
     @Id
-    @Column(name = "transaction_id")
+    @Column(name = "message_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -24,13 +25,9 @@ public class TransactionEntity {
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
 
-    @Enumerated(EnumType.STRING)
-    private Status approvalStatus; //거래 승인 상태
+    private String receiver; //쪽지 수신자 닉네임
 
-    @Enumerated(EnumType.STRING)
-    private Status completionStatus; //거래 완료 상태
-
-
-
-
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String content; //내용
 }

@@ -1,9 +1,7 @@
-package moguBackend.mapper.user;
+package moguBackend.domain.mapper;
 
-import moguBackend.domain.user.ArticleEntity;
-import moguBackend.domain.user.TransactionEntity;
-import moguBackend.dto.user.ArticleDto;
-import moguBackend.dto.user.TransactionDto;
+import moguBackend.domain.entity.TransactionEntity;
+import moguBackend.domain.dto.TransactionDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

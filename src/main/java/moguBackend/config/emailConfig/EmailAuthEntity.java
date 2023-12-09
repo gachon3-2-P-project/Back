@@ -1,4 +1,4 @@
-package moguBackend.config.email;
+package moguBackend.config.emailConfig;
 
 import jakarta.persistence.*;
 import lombok.*;

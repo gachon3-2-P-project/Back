@@ -1,6 +1,6 @@
 package moguBackend.repository.admin;
 
-import moguBackend.domain.admin.AdminEntity;
+import moguBackend.domain.entity.AdminEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

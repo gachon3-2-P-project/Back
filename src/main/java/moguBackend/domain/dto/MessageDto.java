@@ -1,4 +1,4 @@
-package moguBackend.dto.user;
+package moguBackend.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

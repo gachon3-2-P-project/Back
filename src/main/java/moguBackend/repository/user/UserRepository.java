@@ -1,8 +1,6 @@
 package moguBackend.repository.user;
 
-import moguBackend.config.email.EmailAuthEntity;
-import moguBackend.domain.admin.AdminEntity;
-import moguBackend.domain.user.UserEntity;
+import moguBackend.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

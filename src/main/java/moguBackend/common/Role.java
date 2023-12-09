@@ -1,4 +1,4 @@
-package moguBackend.constant;
+package moguBackend.common;
 
 public enum Role {
 

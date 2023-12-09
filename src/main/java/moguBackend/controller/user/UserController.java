@@ -1,12 +1,9 @@
 package moguBackend.controller.user;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moguBackend.dto.user.ArticleDto;
-import moguBackend.dto.user.UserDto;
+import moguBackend.domain.dto.UserDto;
 import moguBackend.service.user.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("user")
+@RequestMapping("/api/user")
 @Slf4j
 public class UserController {
 

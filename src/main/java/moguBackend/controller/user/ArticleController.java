@@ -1,6 +1,6 @@
 package moguBackend.controller.user;
 import lombok.RequiredArgsConstructor;
-import moguBackend.dto.user.ArticleDto;
+import moguBackend.domain.dto.ArticleDto;
 import moguBackend.service.user.ArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("article")
+@RequestMapping("/api/article")
 public class ArticleController {
 
     private final ArticleService articleService;

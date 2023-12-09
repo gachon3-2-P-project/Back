@@ -1,10 +1,9 @@
-package moguBackend.dto.user;
+package moguBackend.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 

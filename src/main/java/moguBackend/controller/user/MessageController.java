@@ -1,7 +1,7 @@
 package moguBackend.controller.user;
 
 import lombok.RequiredArgsConstructor;
-import moguBackend.dto.user.MessageDto;
+import moguBackend.domain.dto.MessageDto;
 import moguBackend.service.user.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

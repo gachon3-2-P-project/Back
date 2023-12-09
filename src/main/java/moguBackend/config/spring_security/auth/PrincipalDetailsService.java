@@ -1,8 +1,8 @@
 package moguBackend.config.spring_security.auth;
 
 import lombok.RequiredArgsConstructor;
-import moguBackend.domain.admin.AdminEntity;
-import moguBackend.domain.user.UserEntity;
+import moguBackend.domain.entity.AdminEntity;
+import moguBackend.domain.entity.UserEntity;
 import moguBackend.repository.admin.AdminRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,7 +2,7 @@ package moguBackend.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moguBackend.dto.user.UserDto;
+import moguBackend.domain.dto.UserDto;
 import moguBackend.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package moguBackend.config.email;
+package moguBackend.config.emailConfig;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

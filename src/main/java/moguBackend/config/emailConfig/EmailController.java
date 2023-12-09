@@ -1,4 +1,4 @@
-package moguBackend.config.email;
+package moguBackend.config.emailConfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,17 +1,12 @@
-package moguBackend.dto.user;
+package moguBackend.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import moguBackend.constant.Role;
-import moguBackend.domain.user.ArticleEntity;
-import moguBackend.domain.user.MessageEntity;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class UserDto {
 
