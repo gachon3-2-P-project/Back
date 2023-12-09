@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EmailRepository extends JpaRepository<EmailAuthEntity, Long> {
 
@@ -13,6 +15,8 @@ public interface EmailRepository extends JpaRepository<EmailAuthEntity, Long> {
     @Modifying
     @Query("DELETE FROM EmailAuthEntity e WHERE e.email = :email")
     void deleteByEmail(@Param("email") String email);
+
+    List<EmailAuthEntity> findByAuthCodeExpirationMillisLessThan(long currentTimeMillis);
 
 
 

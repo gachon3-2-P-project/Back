@@ -13,16 +13,15 @@ import moguBackend.exception.ExceptionCode;
 import moguBackend.mapper.user.UserMapper;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +32,35 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private static final String AUTH_CODE_PREFIX = "AuthCode ";
     private final MailService mailService;
     private final EmailRepository emailRepository;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
+
+    /**
+     * 인증 코드 보낸 뒤 10 분마다 해당 데이터 삭제
+     */
+
+    @Scheduled(fixedRate = 600000)  // 10분마다 실행
+    @Transactional
+    public void deleteExpiredAuthCodes() {
+
+        // 현재 시간을 기준으로 10분 이전에 만료된 인증 코드를 조회
+        long currentTimeMinusOneMinute = System.currentTimeMillis() - 600000;
+        log.info(String.valueOf(currentTimeMinusOneMinute));
+
+        // 현재 시간을 기준으로 10분 이전에 만료된 인증 코드를 조회
+        List<EmailAuthEntity> expiredAuthCodes = emailRepository.findByAuthCodeExpirationMillisLessThan(currentTimeMinusOneMinute);
+
+        // 만료된 인증 코드 삭제
+        for (EmailAuthEntity expiredAuthCode : expiredAuthCodes) {
+            emailRepository.delete(expiredAuthCode);
+            log.info("Expired Email : {}", expiredAuthCode.getEmail());
+        }
+
+
+    }
 
 
     @Transactional
@@ -56,7 +78,6 @@ public class UserService {
                 .build();
         emailRepository.save(emailAuthEntity);
 
-
     }
 
     /**
@@ -73,14 +94,7 @@ public class UserService {
     /**
      * 인증 코드 남은 시간 조회
      */
-    public long getRemainingTimeForAuthCode(String email) {
-        EmailAuthEntity emailAuthEntity = emailRepository.findByEmail(email);
-        if (emailAuthEntity == null) {
-            throw new BusinessLogicException(ExceptionCode.EMAIL_AUTH_NOT_FOUND);
-        }
 
-        return emailAuthEntity.getRemainingTimeMillis();
-    }
 
     @Transactional
     public String createCode() {
@@ -109,14 +123,9 @@ public class UserService {
             throw new BusinessLogicException(ExceptionCode.EMAIL_AUTH_NOT_FOUND);
         }
 
-
         // 테이블에 저장된 코드와 입력된 코드 비교
         return emailAuthEntity.getAuthCode().equals(authCode);
     }
-
-
-
-
 
     /**
      * 회원 생성

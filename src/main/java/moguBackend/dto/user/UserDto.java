@@ -60,6 +60,8 @@ public class UserDto {
 
         private String emailCode;
 
+
+
     }
 
     @Getter

@@ -31,4 +31,6 @@ public class UserEntity extends TimeStamp implements PersonEntity {
     private String emailCode; //인증 이메일 코드
 
 
+
+
 }
