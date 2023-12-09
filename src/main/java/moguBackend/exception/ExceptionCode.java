@@ -48,6 +48,7 @@ public enum ExceptionCode {
     UNABLE_TO_SEND_EMAIL(NOT_FOUND, "메일을 보낼 수 없습니다"),
     NO_SUCH_ALGORITHM(NOT_FOUND, "인증 코드를 생성할 수 없습니다"),
     EMAIL_AUTH_NOT_FOUND(NOT_FOUND, "인증 코드를 확인할 수 없습니다."),
+    AUTH_CODE_EXPIRED(NOT_FOUND, "만료되었습니다."),
 
 
     /**

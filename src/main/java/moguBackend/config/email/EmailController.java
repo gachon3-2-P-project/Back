@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moguBackend.service.user.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
 
     private final UserService userService;
+    private final EmailRepository emailRepository;
 
     /**
      * 가천대 이메일 인증 코드 전송
@@ -26,11 +28,14 @@ public class EmailController {
     }
 
     @GetMapping("/emails/verifications")
+    @Transactional
     public ResponseEntity<?> verificationEmail(@RequestParam("email") String email,
                                                @RequestParam("code") String authCode) {
         boolean verificationResult = userService.verifiedCode(email, authCode);
 
         if (verificationResult) {
+            // 이메일 인증 성공 시 EmailAuth테이블의 해당 데이터 삭제 -> user테이블에는 데이터 존재
+            emailRepository.deleteByEmail(email);
             return ResponseEntity.ok().body(email + " 이메일이 성공적으로 인증되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("이메일 인증에 실패했습니다. 올바른 인증 코드를 입력하세요.");

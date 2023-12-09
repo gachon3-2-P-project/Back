@@ -2,7 +2,7 @@ package moguBackend.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moguBackend.config.email.EmailAuth;
+import moguBackend.config.email.EmailAuthEntity;
 import moguBackend.config.email.EmailRepository;
 import moguBackend.config.email.MailService;
 import moguBackend.constant.Role;
@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,11 +49,12 @@ public class UserService {
         mailService.sendEmail(toEmail, title, authCode);
 
         //이메일 인증번호 보낸 후 DB에 저장
-        EmailAuth emailAuth = EmailAuth.builder()
+        EmailAuthEntity emailAuthEntity = EmailAuthEntity.builder()
                 .email(toEmail)
                 .authCode(authCode)
+                .authCodeExpirationMillis(authCodeExpirationMillis)
                 .build();
-        emailRepository.save(emailAuth);
+        emailRepository.save(emailAuthEntity);
 
 
     }
@@ -69,6 +68,18 @@ public class UserService {
             log.debug("MemberServiceImpl.checkDuplicatedEmail exception occur email: {}", username);
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
+    }
+
+    /**
+     * 인증 코드 남은 시간 조회
+     */
+    public long getRemainingTimeForAuthCode(String email) {
+        EmailAuthEntity emailAuthEntity = emailRepository.findByEmail(email);
+        if (emailAuthEntity == null) {
+            throw new BusinessLogicException(ExceptionCode.EMAIL_AUTH_NOT_FOUND);
+        }
+
+        return emailAuthEntity.getRemainingTimeMillis();
     }
 
     @Transactional
@@ -87,18 +98,20 @@ public class UserService {
         }
     }
 
+    @Transactional
     public boolean verifiedCode(String email, String authCode) {
         this.checkDuplicatedEmail(email);
 
-        // 테이블에서 EmailAuth 조회
-        EmailAuth emailAuth = emailRepository.findByEmail(email);
+        // 테이블에서 EmailAuthEntity 조회
+        EmailAuthEntity emailAuthEntity = emailRepository.findByEmail(email);
 
-        if (emailAuth == null) {
+        if (emailAuthEntity == null) {
             throw new BusinessLogicException(ExceptionCode.EMAIL_AUTH_NOT_FOUND);
         }
 
+
         // 테이블에 저장된 코드와 입력된 코드 비교
-        return emailAuth.getAuthCode().equals(authCode);
+        return emailAuthEntity.getAuthCode().equals(authCode);
     }
 
 
