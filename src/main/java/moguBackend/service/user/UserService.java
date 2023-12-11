@@ -6,11 +6,15 @@ import moguBackend.config.emailConfig.EmailAuthEntity;
 import moguBackend.config.emailConfig.EmailRepository;
 import moguBackend.config.emailConfig.MailService;
 import moguBackend.common.Role;
+import moguBackend.domain.dto.ArticleDto;
+import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.UserEntity;
 import moguBackend.domain.dto.UserDto;
+import moguBackend.domain.mapper.ArticleMapper;
 import moguBackend.exception.BusinessLogicException;
 import moguBackend.exception.ExceptionCode;
 import moguBackend.domain.mapper.UserMapper;
+import moguBackend.repository.user.ArticleRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +38,8 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MailService mailService;
     private final EmailRepository emailRepository;
+    private final ArticleRepository articleRepository;
+    private final ArticleMapper articleMapper;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
@@ -148,17 +155,34 @@ public class UserService {
         return userMapper.toResponseDto(savedUser);
     }
 
-    /**
-     * 회원 id로 회원 조
-     */
+//    /**
+//     * 회원 id로 작성한 게시물 조회
+//     */
+//
+//    public UserDto.UserResponseDto getUser(Long userId) {
+//        // Entity 조회
+//        UserEntity userEntity = userRepository.findById(userId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+//
+//        // DTO로 변환 후 return
+//        return userMapper.toResponseDto(userEntity);
+//    }
 
-    public UserDto.UserResponseDto getUser(Long userId) {
-        // Entity 조회
+    /**
+     * 회원 id로 작성한 게시물들 조회
+     */
+    public List<ArticleDto.ArticleResponseDto> getUserArticles(Long userId) {
+        // 회원 정보 조회
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
+        // 해당 회원이 작성한 게시물들 조회
+        List<ArticleEntity> articles = articleRepository.findByUser(userEntity);
+
         // DTO로 변환 후 return
-        return userMapper.toResponseDto(userEntity);
+        return articles.stream()
+                .map(articleMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     /**

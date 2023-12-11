@@ -9,6 +9,7 @@ import moguBackend.domain.entity.AdminEntity;
 import moguBackend.domain.entity.UserEntity;
 import moguBackend.repository.admin.AdminRepository;
 import moguBackend.repository.user.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +19,7 @@ public class Init {
 
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostConstruct
     private void initFirst(){
@@ -30,7 +32,7 @@ public class Init {
 
         AdminEntity admin = new AdminEntity();
         admin.setUsername("admin_0"); //관리자아이디
-        admin.setPassword("mogumogu"); //관리자 비밀번호
+        admin.setPassword(bCryptPasswordEncoder.encode("admin_" + 0));
         admin.setRole(Role.ADMIN);
         adminRepository.save(admin);
 

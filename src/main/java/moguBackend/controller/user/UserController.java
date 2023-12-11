@@ -17,16 +17,16 @@ public class UserController {
 
     private final UserService userService;
 
-
-    /**
-     * 유저 고유 id로 조회
-     */
-    @GetMapping("/get")
-    public ResponseEntity<?> getUser (@RequestParam("userId") Long userId) {
-
-        UserDto.UserResponseDto user = userService.getUser(userId);
-        return ResponseEntity.ok().body(user);
-    }
+//
+//    /**
+//     * 유저 고유 id로 조회
+//     */
+//    @GetMapping("/getUserArticles")
+//    public ResponseEntity<?> getUser (@RequestParam("userId") Long userId) {
+//
+//        UserDto.UserResponseDto user = userService.getUserArticles(userId);
+//        return ResponseEntity.ok().body(user);
+//    }
 
     /**
      *
