@@ -53,7 +53,6 @@ public class UserDto {
 
         private LocalTime createdAt;
 
-        private String emailCode;
 
 
 

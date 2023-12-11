@@ -2,6 +2,7 @@ package moguBackend.config.emailConfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.domain.dto.UserDto;
 import moguBackend.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +17,33 @@ public class EmailController {
     private final EmailRepository emailRepository;
 
     /**
-     * 가천대 이메일 인증 코드 전송
+     * 회원 가입
      */
-    @PostMapping("/emails/verification-requests")
-    public ResponseEntity<?> sendMessage(@RequestParam("email") String email) {
+    @PostMapping(value = "/join")
+    public ResponseEntity<?> createUser(@RequestBody UserDto.UserRequestDto userRequestDto) {
+        //로그
 
-        log.info("----");
+        String email = userRequestDto.getUsername();
         userService.sendCodeToEmail(email);
+        log.info("createMember 진입");
+        log.info("userRequestDto의 username : " + userRequestDto.getUsername());
+        UserDto.UserResponseDto user = userService.createUser(userRequestDto);
+        log.info("userResponseDto의 username : " + user.getUsername());
 
         return ResponseEntity.ok().body(email + "로 메일이 전송되었습니다.");
     }
+
+//    /**
+//     * 가천대 이메일 인증 코드 전송
+//     */
+//    @PostMapping("/emails/verification-requests")
+//    public ResponseEntity<?> sendMessage(@RequestParam("email") String email) {
+//
+//        log.info("----");
+//        userService.sendCodeToEmail(email);
+//
+//        return ResponseEntity.ok().body(email + "로 메일이 전송되었습니다.");
+//    }
 
     @GetMapping("/emails/verifications")
     @Transactional
