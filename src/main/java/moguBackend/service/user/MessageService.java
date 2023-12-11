@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,18 +128,48 @@ public class MessageService {
     /**
      * 쪽지함 구현
      */
+//    public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
+//
+//        UserEntity userEntity = userRepository.findById(userId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+//
+//        List<MessageEntity> messages = messageRepository.findByReceiver(userEntity.getNickName()); //수신자
+//        List<ArticleDto.ArticleResponseDto> articleResponses = new ArrayList<>();
+//
+//        List<MessageEntity> messages1 = messageRepository.findBySender(userEntity.getNickName()); //발신자
+//        List<ArticleDto.ArticleResponseDto> articleResponses1 = new ArrayList<>();
+//
+//        for (MessageEntity messageEntity : messages) {
+//            if (messageEntity.getSender().equals(userEntity.getNickName())) {
+//
+//                ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
+//                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+//                ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
+//                articleResponses.add(articleResponse);
+//            }
+//        }
+//        return articleResponses;
+//    }
+
     public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
 
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
-        List<MessageEntity> messages = messageRepository.findByReceiver(userEntity.getNickName());
+        // 수신자로부터 온 메시지 조회
+        List<MessageEntity> receivedMessages = messageRepository.findByReceiver(userEntity.getNickName());
+
+        // 발신자로부터 온 메시지 조회
+        List<MessageEntity> sentMessages = messageRepository.findBySender(userEntity.getNickName());
+
+        Set<Long> processedArticleIds = new HashSet<>(); // 중복 체크를 위한 Set
 
         List<ArticleDto.ArticleResponseDto> articleResponses = new ArrayList<>();
 
-        for (MessageEntity messageEntity : messages) {
-            if (messageEntity.getSender().equals(userEntity.getNickName())) {
-
+        // 수신자로부터 온 메시지 처리
+        for (MessageEntity messageEntity : receivedMessages) {
+            // 중복된 게시물이 아직 처리되지 않았으면 처리하고, Set에 추가
+            if (processedArticleIds.add(messageEntity.getArticle().getId())) {
                 ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
                         .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
                 ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
@@ -145,8 +177,16 @@ public class MessageService {
             }
         }
 
-
-
+        // 발신자로부터 온 메시지 처리
+        for (MessageEntity messageEntity : sentMessages) {
+            // 중복된 게시물이 아직 처리되지 않았으면 처리하고, Set에 추가
+            if (processedArticleIds.add(messageEntity.getArticle().getId())) {
+                ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+                ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
+                articleResponses.add(articleResponse);
+            }
+        }
 
         return articleResponses;
     }
