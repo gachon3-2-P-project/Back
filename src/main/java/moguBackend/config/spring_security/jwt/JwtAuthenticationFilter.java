@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -78,5 +80,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC512(JwtProperties.secret));
 
         response.addHeader(JwtProperties.headerString, jwtToken);
+
+        // 바디에도 토큰 정보 추가 (예시로 username과 id를 추가)
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("username", principalDetailis.getPerson().getUsername());
+        responseBody.put("id", principalDetailis.getPerson().getId());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(responseBody));
+        response.getWriter().flush();
     }
 }
