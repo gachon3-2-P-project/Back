@@ -23,6 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("DELETE FROM UserEntity u WHERE u.username = :username")
     void deleteByEmail(@Param("username") String username);
 
+//    UserEntity findByNickName(String nickName);
 
 
 

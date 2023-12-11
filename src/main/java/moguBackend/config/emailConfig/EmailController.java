@@ -33,16 +33,6 @@ public class EmailController {
         return ResponseEntity.ok().body(email + "로 메일이 전송되었습니다.");
     }
 
-//    @PostMapping(value = "/join")
-//    public ResponseEntity<?> createUser(@RequestBody UserDto.UserRequestDto userRequestDto) {
-//        //로그
-//        log.info("createMember 진입");
-//        log.info("userRequestDto의 username : " + userRequestDto.getUsername());
-//        UserDto.UserResponseDto user = userService.createUser(userRequestDto);
-//        log.info("userResponseDto의 username : " + user.getUsername());
-//        return ResponseEntity.ok().body(user);
-//    }
-
 //    /**
 //     * 가천대 이메일 인증 코드 전송
 //     */

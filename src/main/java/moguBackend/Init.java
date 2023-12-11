@@ -45,7 +45,7 @@ public class Init {
             UserEntity user = new UserEntity();
             user.setUsername("gachon" + (i+1) + "@gachon.ac.kr");
             user.setNickName("userNickname" + (i+1));
-            user.setPassword("userPs" + (i+1));
+            user.setPassword(bCryptPasswordEncoder.encode("member" + i));
             user.setRole(Role.USER);
             userRepository.save(user);
         }

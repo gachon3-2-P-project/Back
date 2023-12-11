@@ -26,7 +26,7 @@ public interface ArticleMapper {
     ArticleDto.ArticleResponseDto toResponseDto(ArticleEntity articleEntity);
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.nickName", target = "nickName")
+    //@Mapping(source = "user.nickName", target = "nickName")
     @Mapping(source = "article.id", target = "articleId")
     MessageDto.MessageResponseDto toMessageResponseDto(MessageEntity messageEntity);
 

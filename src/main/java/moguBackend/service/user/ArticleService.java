@@ -60,38 +60,38 @@ public class ArticleService {
         return articleMapper.toResponseDto(articleEntity);
 
     }
-
-    /**
-     * 해당 게시물 쪽지 조회
-     */
-
-
-    public List<ArticleDto.ArticleResponseDto> getArticleMessages(Long articleId) {
-
-        ArticleEntity articleEntity = articleRepository.findById(articleId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
-
-        // 게시물과 연관된 메시지들
-        List<MessageEntity> messages = articleEntity.getMessages();
-        List<MessageDto.MessageResponseDto> messageDtos = new ArrayList<>();
-
-        // 메시지들을 DTO로 변환하여 리스트에 추가
-        for (MessageEntity messageEntity : messages) {
-            MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(messageEntity);
-
-            messageResponseDto.setUserId(messageEntity.getUser().getId());
-            messageResponseDto.setNickName(messageEntity.getUser().getNickName());
-
-            messageDtos.add(messageResponseDto);
-        }
-
-        List<ArticleDto.ArticleResponseDto> result = new ArrayList<>();
-        ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
-        articleResponseDto.setMessages(messageDtos);
-        result.add(articleResponseDto);
-
-        return result;
-    }
+//
+//    /**
+//     * 해당 게시물 쪽지 조회
+//     */
+//
+//
+//    public List<ArticleDto.ArticleResponseDto> getArticleMessages(Long articleId) {
+//
+//        ArticleEntity articleEntity = articleRepository.findById(articleId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+//
+//        // 게시물과 연관된 메시지들
+//        List<MessageEntity> messages = articleEntity.getMessages();
+//        List<MessageDto.MessageResponseDto> messageDtos = new ArrayList<>();
+//
+//        // 메시지들을 DTO로 변환하여 리스트에 추가
+//        for (MessageEntity messageEntity : messages) {
+//            MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(messageEntity);
+//
+//            messageResponseDto.setUserId(messageEntity.getUser().getId());
+//            messageResponseDto.setNickName(messageEntity.getUser().getNickName());
+//
+//            messageDtos.add(messageResponseDto);
+//        }
+//
+//        List<ArticleDto.ArticleResponseDto> result = new ArrayList<>();
+//        ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
+//        articleResponseDto.setMessages(messageDtos);
+//        result.add(articleResponseDto);
+//
+//        return result;
+//    }
 
 
 
@@ -119,7 +119,7 @@ public class ArticleService {
 
 
                 messageResponseDto.setUserId(MessageEntity.getUser().getId());
-                messageResponseDto.setNickName(MessageEntity.getUser().getNickName());
+                //messageResponseDto.setNickName(MessageEntity.getUser().getNickName());
 
                 MessageDtos.add(messageResponseDto);
             }

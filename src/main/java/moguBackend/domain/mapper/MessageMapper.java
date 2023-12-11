@@ -21,7 +21,7 @@ public interface MessageMapper {
      */
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "article.id", target = "articleId")
-    @Mapping(source = "user.nickName", target = "nickName")
+    //@Mapping(source = "user.nickName", target = "nickName")
     MessageDto.MessageResponseDto toResponseDto(MessageEntity messageEntity);
 
 
@@ -29,6 +29,7 @@ public interface MessageMapper {
     @Mapping(target = "user", source = "userEntity")
     @Mapping(target = "article", source = "articleEntity")
     @Mapping(target = "content", source = "messageRequestDto.content")
+    @Mapping(target = "sender", ignore = true)
     MessageEntity toRequestEntity(MessageDto.MessageRequestDto messageRequestDto, UserEntity userEntity, ArticleEntity articleEntity);
 
 

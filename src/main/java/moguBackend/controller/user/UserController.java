@@ -2,6 +2,7 @@ package moguBackend.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.domain.dto.ArticleDto;
 import moguBackend.domain.dto.UserDto;
 import moguBackend.service.user.UserService;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,15 @@ public class UserController {
 
     private final UserService userService;
 
-//
-//    /**
-//     * 유저 고유 id로 조회
-//     */
-//    @GetMapping("/getUserArticles")
-//    public ResponseEntity<?> getUser (@RequestParam("userId") Long userId) {
-//
-//        UserDto.UserResponseDto user = userService.getUserArticles(userId);
-//        return ResponseEntity.ok().body(user);
-//    }
+
+    /**
+     * 유저 고유 id로 조회
+     */
+    @GetMapping("/getUserArticles")
+    public ResponseEntity<?> getUserArticles(@RequestParam("userId") Long userId) {
+        List<ArticleDto.ArticleResponseDto> articles = userService.getUserArticles(userId);
+        return ResponseEntity.ok().body(articles);
+    }
 
     /**
      *

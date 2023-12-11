@@ -36,7 +36,7 @@ public class MessageDto {
 
         private Long userId; //게시물 작성한 사용자 id
 
-        private String nickName; //게시물 작성한 사용자 nickName
+        //private String nickName; //게시물 작성한 사용자 nickName
 
         private Long articleId; //해당 거래 게시물 id
 
@@ -45,6 +45,10 @@ public class MessageDto {
         private String content; //내용
 
         private LocalTime createdAt;
+
+        private String sender;
+
+
 
 
 
