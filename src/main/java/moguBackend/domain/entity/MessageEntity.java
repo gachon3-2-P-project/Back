@@ -14,7 +14,8 @@ public class MessageEntity extends TimeStamp{
 
     @Id
     @Column(name = "message_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

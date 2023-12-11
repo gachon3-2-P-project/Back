@@ -18,7 +18,8 @@ public class ArticleEntity extends TimeStamp {
 
     @Id
     @Column(name = "article_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
