@@ -26,6 +26,10 @@ public class ArticleDto {
 
         private Integer complain; // 게시글 신고 횟수 (최대 5회)
 
+        private String productName; //상품명
+
+        private Integer cost; //금액
+
 
     }
 
@@ -54,6 +58,10 @@ public class ArticleDto {
 
         private LocalTime createdAt;
 
+        private String productName; //상품명
+
+        private Integer cost; //금액
+
 
 
     }
@@ -73,6 +81,10 @@ public class ArticleDto {
         private Integer numberOfPeople; //인원 수
 
         private Integer complain; // 게시글 신고 횟수 (최대 5회)
+
+        private String productName; //상품명
+
+        private Integer cost; //금액
 
     }
 

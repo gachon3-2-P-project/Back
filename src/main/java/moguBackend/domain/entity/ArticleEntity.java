@@ -40,6 +40,10 @@ public class ArticleEntity extends TimeStamp {
     //@JsonBackReference
     private List<MessageEntity> messages = new ArrayList<>();
 
+    private String productName; //상품명
+
+    private Integer cost; //금액
+
 
 
 }
