@@ -2,6 +2,7 @@ package moguBackend.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.common.Transaction;
 import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.MessageEntity;
 import moguBackend.domain.entity.UserEntity;
@@ -40,6 +41,9 @@ public class ArticleService {
 
 
         ArticleEntity savedArticle = articleRepository.save(articleMapper.toReqeustEntity(articleRequestDto, userEntity));
+//        savedArticle.setTransactionNumber(0);
+//        savedArticle.setDepositNumber(0);
+        savedArticle.setTransactionStatus(Transaction.RECRUITOPEN);
 
         ArticleDto.ArticleResponseDto responseDto = articleMapper.toResponseDto(savedArticle);
         responseDto.setUserId(userId);
@@ -205,6 +209,28 @@ public class ArticleService {
             log.info("Complain count: ", complain);
             return articleMapper.toResponseDto(articleEntity);
 
+        }
+    }
+
+
+    /**
+     * 사용자 입금 신청 버튼
+     */
+    @Transactional
+    public String depositButton(Long articleId) {
+        ArticleEntity article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        log.info("입금 자 count: {}", article.getDepositNumber());
+
+        if (article.getDepositNumber() >= article.getNumberOfPeople()) {
+            article.setTransactionStatus(Transaction.RECRUITCLOSED);
+            return "모집 마감";
+        } else {
+            int depositNumber = article.getDepositNumber();
+            depositNumber++;
+            article.setDepositNumber(depositNumber);
+            return "입금 신청 완료";
         }
     }
 

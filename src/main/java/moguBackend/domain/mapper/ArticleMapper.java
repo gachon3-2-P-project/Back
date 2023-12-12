@@ -48,6 +48,8 @@ public interface ArticleMapper {
     @Mapping(target = "user", source = "userEntity")
     @Mapping(target = "messages", ignore = true)
     @Mapping(target="transactionStatus", ignore = true)
+//    @Mapping(target="depositNumber", ignore = true)
+//    @Mapping(target = "transactionNumber", ignore = true)
     ArticleEntity toReqeustEntity(ArticleDto.ArticleRequestDto articleRequestDto, UserEntity userEntity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

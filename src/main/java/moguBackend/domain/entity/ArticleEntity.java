@@ -48,6 +48,10 @@ public class ArticleEntity extends TimeStamp {
     @Enumerated(EnumType.STRING)
     private Transaction transactionStatus = Transaction.RECRUITOPEN;
 
+    private Integer depositNumber; //입금 수
+
+    private Integer transactionNumber; //거래 완료 수
+
 
 
 }

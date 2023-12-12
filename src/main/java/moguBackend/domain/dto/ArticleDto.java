@@ -31,6 +31,10 @@ public class ArticleDto {
 
         private Integer cost; //금액
 
+        private Integer depositNumber; //입금 수
+
+        private Integer transactionNumber; //거래 완료 수
+
 
     }
 
@@ -65,6 +69,10 @@ public class ArticleDto {
 
         private Transaction transactionStatus; //거래 상태
 
+        private Integer depositNumber; //입금 수
+
+        private Integer transactionNumber; //거래 완료 수
+
 
 
     }
@@ -90,6 +98,10 @@ public class ArticleDto {
         private Integer cost; //금액
 
         private Transaction transactionStatus; //거래 상태
+
+        private Integer depositNumber; //입금 수
+
+        private Integer transactionNumber; //거래 완료 수
 
     }
 

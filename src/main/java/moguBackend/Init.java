@@ -68,6 +68,8 @@ public class Init {
             article.setNumberOfPeople(3);
             article.setCost(10000 * i);
             article.setComplain(0);
+            article.setDepositNumber(0);
+            article.setTransactionNumber(0);
             articleRepository.save(article);
         }
     }

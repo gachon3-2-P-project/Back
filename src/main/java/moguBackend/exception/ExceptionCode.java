@@ -25,6 +25,8 @@ public enum ExceptionCode {
     INVALID_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰이 유효하지 않습니다."),
     MISMATCH_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰의 유저 정보가 일치하지 않습니다."),
     CREATE_FAIL_USER(BAD_REQUEST, "회원 가입에 실패하였습니다."),
+    DEPOSIT_BUTTON_FAIL(BAD_REQUEST, "입금 버튼 푸쉬 실패하였습니다."),
+    RECRUIT_ING(BAD_REQUEST, "모집이 중 입니다!."),
 
 
     /**

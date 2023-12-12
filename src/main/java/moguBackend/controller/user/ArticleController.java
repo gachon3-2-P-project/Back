@@ -1,8 +1,11 @@
 package moguBackend.controller.user;
 import lombok.RequiredArgsConstructor;
 import moguBackend.domain.dto.ArticleDto;
+import moguBackend.exception.BusinessLogicException;
 import moguBackend.service.user.ArticleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -86,6 +89,16 @@ public class ArticleController {
     public ResponseEntity<?> updateArticle(@RequestParam("articleId") Long articleId, @RequestBody ArticleDto.ArticlePatchDto articlePatchDto) {
         return ResponseEntity.ok().body(articleService.updateArticle(articleId, articlePatchDto));
     }
+
+    /**
+     * 사용자 입금 신청 버튼
+     */
+    @PatchMapping("/deposit")
+    public ResponseEntity<?> depositButton(@RequestParam("articleId") Long articleId) {
+        return ResponseEntity.ok().body("모집 인원 수 : " + articleService.depositButton(articleId));
+    }
+
+
 
 
 
