@@ -51,15 +51,25 @@ public class MessageController {
     /**
      * 게시글Id로 작성된 쪽지 조회
      */
-    /**
-     * 해당 게시물 쪽지 조회
-     */
+
     @GetMapping("/getArticleMessages")
     public ResponseEntity<List<ArticleDto.ArticleResponseDto>> getArticleMessages(@RequestParam Long articleId) {
         List<ArticleDto.ArticleResponseDto> articlesWithMessages = messageService.getArticleMessages(articleId);
         return ResponseEntity.ok().body(articlesWithMessages);
     }
 
+    /**
+     * 쪽지 삭제
+     */
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteMessage(@RequestParam Long messageId) {
+        messageService.deleteMessage(messageId);
+        return ResponseEntity.ok().body("Deleted Message Id : " + messageId);
+    }
+
+    /**
+     * 해당 게시물 쪽지 조회
+     */
     @GetMapping("/getMessageStorage")
     public ResponseEntity<List<ArticleDto.ArticleResponseDto>> getMessageStorage(@RequestParam Long userId) {
 

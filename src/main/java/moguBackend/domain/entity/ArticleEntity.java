@@ -3,6 +3,7 @@ package moguBackend.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import moguBackend.common.TimeStamp;
+import moguBackend.common.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class ArticleEntity extends TimeStamp {
     private String productName; //상품명
 
     private Integer cost; //금액
+
+    @Enumerated(EnumType.STRING)
+    private Transaction transactionStatus = Transaction.RECRUITOPEN;
 
 
 

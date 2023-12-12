@@ -3,6 +3,7 @@ package moguBackend.domain.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import moguBackend.common.Transaction;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -62,6 +63,8 @@ public class ArticleDto {
 
         private Integer cost; //금액
 
+        private Transaction transactionStatus; //거래 상태
+
 
 
     }
@@ -85,6 +88,8 @@ public class ArticleDto {
         private String productName; //상품명
 
         private Integer cost; //금액
+
+        private Transaction transactionStatus; //거래 상태
 
     }
 
