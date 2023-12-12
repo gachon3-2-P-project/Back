@@ -71,7 +71,7 @@ public class UserService {
 
     @Transactional
     public void sendCodeToEmail(String toEmail) {
-        this.checkDuplicatedEmail(toEmail);
+        //this.checkDuplicatedEmail(toEmail);
         String title = "MoguMogu 이메일 인증 번호";
         String authCode = this.createCode();
         mailService.sendEmail(toEmail, title, authCode);
@@ -86,16 +86,16 @@ public class UserService {
 
     }
 
-    /**
-     * 이미 회원가입한 회원인지 확인하는 메서드
-     */
-    private void checkDuplicatedEmail(String username) {
-        Optional<UserEntity> user = Optional.ofNullable(userRepository.findByUsername(username)); //username == emailConfig
-        if (user.isPresent()) {
-            log.debug("MemberServiceImpl.checkDuplicatedEmail exception occur emailConfig: {}", username);
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-        }
-    }
+//    /**
+//     * 이미 회원가입한 회원인지 확인하는 메서드
+//     */
+//    private void checkDuplicatedEmail(String username) {
+//        Optional<UserEntity> user = Optional.ofNullable(userRepository.findByUsername(username)); //username == emailConfig
+//        if (user.isPresent()) {
+//            log.debug("MemberServiceImpl.checkDuplicatedEmail exception occur emailConfig: {}", username);
+//            throw new BusinessLogicException(ExceptionCode.DUPLICATED_USER);
+//        }
+//    }
 
     /**
      * 인증 코드 남은 시간 조회
@@ -120,7 +120,7 @@ public class UserService {
 
     @Transactional
     public boolean verifiedCode(String email, String authCode) {
-        this.checkDuplicatedEmail(email);
+        //this.checkDuplicatedEmail(email);
 
         // 테이블에서 EmailAuthEntity 조회
         EmailAuthEntity emailAuthEntity = emailRepository.findByEmail(email);

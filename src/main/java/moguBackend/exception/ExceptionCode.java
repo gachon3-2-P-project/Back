@@ -50,6 +50,7 @@ public enum ExceptionCode {
     EMAIL_AUTH_NOT_FOUND(NOT_FOUND, "인증 코드를 확인할 수 없습니다."),
     AUTH_CODE_EXPIRED(NOT_FOUND, "만료되었습니다."),
     VERIFICATION_FAILED(NOT_FOUND, "인증 실패"),
+    DUPLICATED_USER(NOT_FOUND, "중복된 사용자"),
 
 
     /**
