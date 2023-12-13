@@ -1,6 +1,7 @@
 package moguBackend.config.spring_security.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moguBackend.domain.entity.AdminEntity;
 import moguBackend.domain.entity.UserEntity;
 import moguBackend.repository.admin.AdminRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -30,7 +32,6 @@ public class PrincipalDetailsService implements UserDetailsService {
             return new PrincipalDetails(adminEntity);
         } else {
             UserEntity userEntity = userRepository.findByUsername(username);
-
 
 
             return new PrincipalDetails(userEntity);

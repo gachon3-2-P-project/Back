@@ -52,10 +52,18 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        log.info( " -----");
+//        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//        log.info(person.getRole() + " -----");
+//        authorities.add(new SimpleGrantedAuthority("ROLE_" + person.getRole().toString()));
+//        return authorities;
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        log.info(person.getRole() + " -----");
         authorities.add(new SimpleGrantedAuthority("ROLE_" + person.getRole().toString()));
         return authorities;
     }

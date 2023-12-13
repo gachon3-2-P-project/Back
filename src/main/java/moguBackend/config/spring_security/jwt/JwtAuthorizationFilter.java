@@ -52,6 +52,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (username != null) {
             PersonEntity person;
+            log.info(username);
             if (username.contains("admin_"))
                 person = adminRepository.findByUsername(username);
             else person = userRepository.findByUsername(username);

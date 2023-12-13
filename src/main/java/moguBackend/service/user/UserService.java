@@ -139,20 +139,22 @@ public class UserService {
     @Transactional
     public UserDto.UserResponseDto createUser(UserDto.UserRequestDto userRequestDto) {
 
+        /**
+         * encoding
+         */
 
-        //encoding
-        if (userRequestDto.getPassword() != null)
-            userRequestDto.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
+        if(userRequestDto.getPassword()!=null) userRequestDto.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
+
         // RequestDto -> Entity
         UserEntity userEntity = userMapper.toRequestEntity(userRequestDto);
-        userEntity.setRole(Role.USER);
 
         // DB에 Entity 저장
         UserEntity savedUser = userRepository.save(userEntity);
 
         // Entity -> ResponseDto
+        UserDto.UserResponseDto responseDto = userMapper.toResponseDto(savedUser);
 
-        return userMapper.toResponseDto(savedUser);
+        return responseDto;
     }
 
 //    /**
