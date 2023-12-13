@@ -254,9 +254,32 @@ public class ArticleService {
         }
     }
 
+    /**
+     * 관리자 거래 승인 버튼
+     */
+    @Transactional
+    public String adminApprove(Long articleId) {
+        ArticleEntity article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        article.setTransactionStatus(Transaction.COMPLETED);
+
+        return "관리자가 거래 승인하였습니다.";
+        }
 
 
+    /**
+     * 관리자 최종 완료 버튼
+     */
+    @Transactional
+    public String adminFinal(Long articleId) {
+        ArticleEntity article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
 
+        article.setTransactionStatus(Transaction.FINALLYCOMPLETED);
 
-
+        return "관리자가 최종 거래 완료하였습니다.";
+    }
 }
+
+
