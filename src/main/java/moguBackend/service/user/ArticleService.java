@@ -234,6 +234,26 @@ public class ArticleService {
         }
     }
 
+    /**
+     * 사용자 거래완료 버튼
+     */
+    @Transactional
+    public String completeButton(Long articleId) {
+        ArticleEntity article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+
+        if (article.getTransactionNumber() >= article.getNumberOfPeople() + 1) {
+            article.setTransactionStatus(Transaction.COMPLETED);
+            return "판매자 / 구매자 거래 완료 ";
+        } else {
+            int transactionNumber = article.getTransactionNumber();
+            transactionNumber++;
+            article.setTransactionNumber(transactionNumber);
+            return "거래 완료 접수";
+        }
+    }
+
 
 
 

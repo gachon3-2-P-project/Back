@@ -94,8 +94,16 @@ public class ArticleController {
      * 사용자 입금 신청 버튼
      */
     @PatchMapping("/deposit")
-    public ResponseEntity<?> depositButton(@RequestParam("articleId") Long articleId) {
+    public ResponseEntity<?> deposit(@RequestParam("articleId") Long articleId) {
         return ResponseEntity.ok().body("모집 인원 수 : " + articleService.depositButton(articleId));
+    }
+
+    /**
+     * 거래 완료 버튼
+     */
+    @PatchMapping("/transactionComplete")
+    public ResponseEntity<?> transactionComplete(@RequestParam("articleId") Long articleId) {
+        return ResponseEntity.ok().body( articleService.completeButton(articleId));
     }
 
 
