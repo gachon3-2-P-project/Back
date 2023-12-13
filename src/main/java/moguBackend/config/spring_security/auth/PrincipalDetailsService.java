@@ -2,6 +2,7 @@ package moguBackend.config.spring_security.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.common.Role;
 import moguBackend.domain.entity.AdminEntity;
 import moguBackend.domain.entity.UserEntity;
 import moguBackend.repository.admin.AdminRepository;
@@ -28,10 +29,13 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         if (username.contains("admin_")) {
             AdminEntity adminEntity = adminRepository.findByUsername(username);
+            adminEntity.setRole(Role.ADMIN);
 
             return new PrincipalDetails(adminEntity);
         } else {
             UserEntity userEntity = userRepository.findByUsername(username);
+            userEntity.setRole(Role.USER);
+            System.out.println(userEntity.getUsername());
 
 
             return new PrincipalDetails(userEntity);

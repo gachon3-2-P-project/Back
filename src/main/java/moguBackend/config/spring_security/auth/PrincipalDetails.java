@@ -1,6 +1,7 @@
 package moguBackend.config.spring_security.auth;
 
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.common.Role;
 import moguBackend.config.spring_security.PersonEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,8 +15,11 @@ public class PrincipalDetails implements UserDetails {
 
     private PersonEntity person;
 
+
     public PrincipalDetails(PersonEntity person) {
         this.person = person;
+        System.out.println("=====" + person.getUsername());
+        System.out.println("====" + person.getRole());
     }
 
     public PersonEntity getPerson() {
@@ -31,6 +35,8 @@ public class PrincipalDetails implements UserDetails {
     public String getUsername() {
         return person.getUsername();
     }
+
+
 
     @Override
     public boolean isAccountNonExpired() {
