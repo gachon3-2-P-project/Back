@@ -17,10 +17,7 @@ import moguBackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,28 +125,7 @@ public class MessageService {
     /**
      * 쪽지함 구현
      */
-//    public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
-//
-//        UserEntity userEntity = userRepository.findById(userId)
-//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-//
-//        List<MessageEntity> messages = messageRepository.findByReceiver(userEntity.getNickName()); //수신자
-//        List<ArticleDto.ArticleResponseDto> articleResponses = new ArrayList<>();
-//
-//        List<MessageEntity> messages1 = messageRepository.findBySender(userEntity.getNickName()); //발신자
-//        List<ArticleDto.ArticleResponseDto> articleResponses1 = new ArrayList<>();
-//
-//        for (MessageEntity messageEntity : messages) {
-//            if (messageEntity.getSender().equals(userEntity.getNickName())) {
-//
-//                ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
-//                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
-//                ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
-//                articleResponses.add(articleResponse);
-//            }
-//        }
-//        return articleResponses;
-//    }
+
 
     public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
 
@@ -190,6 +166,80 @@ public class MessageService {
 
         return articleResponses;
     }
+
+
+
+    /**
+     * 게시물 작성자가 해당 게시물에 작성한 메시지 조회
+     */
+
+    public List<MessageDto.MessageResponseDto> getArticleAuthorMessages(Long articleId, Long userId) {
+
+        ArticleEntity articleEntity = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+
+        //게시물 작성자의 닉네임 가져오기
+        String authorNickName = articleEntity.getUser().getNickName();
+        log.info(authorNickName);
+
+        //게시물 작성자가 쪽지 보내는 사용자 닉네임 가져오기
+        String userNickName = userEntity.getNickName();
+        log.info(userNickName);
+
+        //게시물 작성자가 보낸 메시지만 가져오기
+        List<MessageEntity> messages = articleEntity.getMessages().stream()
+                .filter(messageEntity -> authorNickName.equals(messageEntity.getSender()) && userNickName.equals(messageEntity.getReceiver()))
+                .collect(Collectors.toList());
+
+        log.info("Number of Messages for Author: {}", messages.size());
+
+
+        List<MessageDto.MessageResponseDto> messageDtos = messages.stream()
+                .map(messageEntity -> messageMapper.toResponseDto(messageEntity))
+                .collect(Collectors.toList());
+
+        return messageDtos;
+
+
+    }
+
+    /**
+     * 사용자가 해당 게시물에 작성한 메시지 조회
+     */
+
+    public List<MessageDto.MessageResponseDto> getArticleSenderMessages(Long articleId, Long userId) {
+
+        ArticleEntity articleEntity = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        //사용자 닉네임 가져오기
+        String userNickName = userEntity.getNickName();
+        log.info(userNickName);
+
+        //게시물 작성자가 보낸 메시지만 가져오기
+        List<MessageEntity> messages = articleEntity.getMessages().stream()
+                .filter(messageEntity -> userNickName.equals(messageEntity.getSender()))
+                .collect(Collectors.toList());
+
+        log.info("Number of Messages for Author: {}", messages.size());
+
+
+        List<MessageDto.MessageResponseDto> messageDtos = messages.stream()
+                .map(messageEntity -> messageMapper.toResponseDto(messageEntity))
+                .collect(Collectors.toList());
+
+        return messageDtos;
+
+
+    }
+
 
 
 

@@ -3,6 +3,7 @@ package moguBackend.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moguBackend.common.Transaction;
+import moguBackend.domain.dto.UserDto;
 import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.MessageEntity;
 import moguBackend.domain.entity.UserEntity;
@@ -279,6 +280,29 @@ public class ArticleService {
         article.setTransactionStatus(Transaction.FINALLYCOMPLETED);
 
         return "관리자가 최종 거래 완료하였습니다.";
+    }
+
+    /**
+     * 관리자 거래 관리
+     */
+    /**
+     * 관리자 거래 관리
+     */
+    @Transactional
+    public List<ArticleDto.ArticleResponseDto> getAllTransaction() {
+        List<ArticleEntity> articleEntities = articleRepository.getAllArticle();
+        List<ArticleDto.ArticleResponseDto> articleResponseDtos = new ArrayList<>();
+
+        for (ArticleEntity articleEntity : articleEntities) {
+            ArticleDto.ArticleResponseDto articleResponseDto = new ArticleDto.ArticleResponseDto();
+            articleResponseDto.setId(articleEntity.getId());
+            articleResponseDto.setTitle(articleEntity.getTitle());
+            articleResponseDto.setTransactionStatus(articleEntity.getTransactionStatus());
+
+            articleResponseDtos.add(articleResponseDto);
+        }
+
+        return articleResponseDtos;
     }
 }
 

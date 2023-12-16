@@ -1,4 +1,5 @@
 package moguBackend.repository.user;
+import moguBackend.domain.dto.ArticleDto;
 import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     List<ArticleEntity> getAllArticle();
 
     List<ArticleEntity> findByUser(UserEntity user);
+
+
 }

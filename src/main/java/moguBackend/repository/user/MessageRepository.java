@@ -1,5 +1,6 @@
 package moguBackend.repository.user;
 
+import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.MessageEntity;
 import moguBackend.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,6 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     List<MessageEntity> findBySender(String sender);
 
+//    List<MessageEntity> findByUserAndArticle(UserEntity user, ArticleEntity article);
 
 }

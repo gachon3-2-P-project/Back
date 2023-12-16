@@ -1,6 +1,7 @@
 package moguBackend.controller.user;
 import lombok.RequiredArgsConstructor;
 import moguBackend.domain.dto.ArticleDto;
+import moguBackend.domain.dto.MessageDto;
 import moguBackend.exception.BusinessLogicException;
 import moguBackend.service.user.ArticleService;
 import org.springframework.http.HttpStatus;
@@ -114,12 +115,18 @@ public class ArticleController {
         return ResponseEntity.ok().body( articleService.adminFinal(articleId));
     }
 
-
-
-
     /**
-     * 관리자 최종 완료 버튼
+     * 관리자 거래 조회
      */
+
+    @GetMapping("/admin/getAllTransaction")
+    public ResponseEntity<List<ArticleDto.ArticleResponseDto>> getAllTransactionForAdmin() {
+        List<ArticleDto.ArticleResponseDto> transactions = articleService.getAllTransaction();
+        return ResponseEntity.ok().body(transactions);
+    }
+
+
+
 
 
 

@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/api/user/**")).hasAnyRole("ADMIN", "USER")  //ROLE_ 자동으로 붙여짐
-         //               .requestMatchers(new AntPathRequestMatcher("/user/join")).permitAll() //회원가입 접근 가능하게
+                        //.requestMatchers(new AntPathRequestMatcher("/join")).permitAll() //회원가입 접근 가능하게
                         .anyRequest().permitAll())
                 .build();
 

@@ -35,10 +35,16 @@ public class PrincipalDetailsService implements UserDetailsService {
         } else {
             UserEntity userEntity = userRepository.findByUsername(username);
             userEntity.setRole(Role.USER);
-            System.out.println(userEntity.getUsername());
+            //System.out.println(userEntity.getUsername());
 
 
-            return new PrincipalDetails(userEntity);
+//            return new PrincipalDetails(userEntity);
+
+            System.out.println("=========");
+            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+            System.out.println("test" + principalDetails.getPerson().getUsername());
+            return principalDetails;
+
         }
     }
 }

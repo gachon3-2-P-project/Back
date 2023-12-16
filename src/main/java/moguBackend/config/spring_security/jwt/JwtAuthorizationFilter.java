@@ -50,6 +50,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String username = JWT.require(Algorithm.HMAC512(JwtProperties.secret)).build().verify(token)
                 .getClaim("username").asString();
 
+
         if (username != null) {
             PersonEntity person;
             log.info(username);
@@ -57,7 +58,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 person = adminRepository.findByUsername(username);
             else person = userRepository.findByUsername(username);
 
+            System.out.println("======");
+            System.out.println("=====" + person.getUsername());
+
+
             PrincipalDetails principalDetails = new PrincipalDetails(person);
+            System.out.println(person.getUsername());
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     principalDetails,
                     null,
