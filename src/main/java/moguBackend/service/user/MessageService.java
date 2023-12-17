@@ -135,51 +135,48 @@ public class MessageService {
 //        return messageDtos;
 //    }
 
-    /**
-     * 쪽지함 구현
-     */
 
-
-    /**
-     * 쪽지함 구현
-     */
     public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
-
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         // 수신자로부터 온 메시지 조회
         List<MessageEntity> receivedMessages = messageRepository.findByReceiver(userEntity.getNickName());
 
-        // 발신자로부터 온 메시지 조회
-        List<MessageEntity> sentMessages = messageRepository.findBySender(userEntity.getNickName());
+        // 수신자별로 메시지를 그룹화한 맵
+        Map<Long, List<MessageEntity>> messagesByReceiverMap = receivedMessages.stream()
+                .collect(Collectors.groupingBy(messageEntity -> messageEntity.getArticle().getId()));
 
+        // 결과를 저장할 리스트
         List<ArticleDto.ArticleResponseDto> articleResponses = new ArrayList<>();
 
-        // 수신자로부터 온 메시지 처리
-        for (MessageEntity messageEntity : receivedMessages) {
-            ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
+        // 맵을 순회하면서 ArticleResponseDto를 생성하고 결과 리스트에 추가
+        for (Map.Entry<Long, List<MessageEntity>> entry : messagesByReceiverMap.entrySet()) {
+            Long articleId = entry.getKey();
+            List<MessageEntity> messagesForArticle = entry.getValue();
+
+            ArticleEntity articleEntity = articleRepository.findById(articleId)
                     .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
 
-            // ArticleDto에서 메시지 필드를 제외한 생성자 또는 빌더 메서드를 사용하여 ArticleResponseDto를 생성
             ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
 
-            articleResponses.add(articleResponse);
-        }
+            // 메시지를 추가
+            List<MessageDto.MessageResponseDto> messageResponses = messagesForArticle.stream()
+                    .map(messageEntity -> messageMapper.toResponseDto(messageEntity))
+                    .collect(Collectors.toList());
 
-        // 발신자로부터 온 메시지 처리
-        for (MessageEntity messageEntity : sentMessages) {
-            ArticleEntity articleEntity = articleRepository.findById(messageEntity.getArticle().getId())
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+            articleResponse.setMessages(messageResponses);
 
-            // ArticleDto에서 메시지 필드를 제외한 생성자 또는 빌더 메서드를 사용하여 ArticleResponseDto를 생성
-            ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
-
-            articleResponses.add(articleResponse);
+            // 결과 리스트에 추가 (리스트를 중복해서 추가)
+            for (int i = 0; i < messagesForArticle.size(); i++) {
+                articleResponses.add(articleResponse);
+            }
         }
 
         return articleResponses;
     }
+
+
 
 
 
