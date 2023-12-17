@@ -136,45 +136,45 @@ public class MessageService {
 //    }
 
 
-    public List<ArticleDto.ArticleResponseDto> getMessageStorage(Long userId) {
+    public List<MessageDto.MessageResponseDto> getMessageStorage(Long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
-        // 수신자로부터 온 메시지 조회
-        List<MessageEntity> receivedMessages = messageRepository.findByReceiver(userEntity.getNickName());
+        // 해당 사용자가 보낸 메시지 조회
+        List<MessageEntity> sentMessages = messageRepository.findBySender(userEntity.getNickName());
 
-        // 수신자별로 메시지를 그룹화한 맵
-        Map<Long, List<MessageEntity>> messagesByReceiverMap = receivedMessages.stream()
-                .collect(Collectors.groupingBy(messageEntity -> messageEntity.getArticle().getId()));
+        log.info("Number of Sent Messages: {}", sentMessages.size());
 
-        // 결과를 저장할 리스트
-        List<ArticleDto.ArticleResponseDto> articleResponses = new ArrayList<>();
+        // 확인된 receiver를 저장하기 위한 Set
+        Set<String> checkedReceivers = new HashSet<>();
 
-        // 맵을 순회하면서 ArticleResponseDto를 생성하고 결과 리스트에 추가
-        for (Map.Entry<Long, List<MessageEntity>> entry : messagesByReceiverMap.entrySet()) {
-            Long articleId = entry.getKey();
-            List<MessageEntity> messagesForArticle = entry.getValue();
+        return sentMessages.stream()
+                .filter(messageEntity -> {
+                    // receiver가 중복되면 결과에 추가하지 않음
+                    String receiver = messageEntity.getReceiver();
+                    if (receiver != null && !checkedReceivers.contains(receiver)) {
+                        checkedReceivers.add(receiver);
+                        return true;
+                    }
+                    return false;
+                })
+                .map(messageEntity -> {
+                    MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(messageEntity);
 
-            ArticleEntity articleEntity = articleRepository.findById(articleId)
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+                    // 해당 메시지가 속한 게시물 정보 추가
+                    ArticleEntity articleEntity = messageEntity.getArticle();
+                    if (articleEntity != null) {
+                        messageResponseDto.setArticleId(articleEntity.getId());
+                        messageResponseDto.setArticleTitle(articleEntity.getTitle());
+                    }
 
-            ArticleDto.ArticleResponseDto articleResponse = articleMapper.toResponseDto(articleEntity);
-
-            // 메시지를 추가
-            List<MessageDto.MessageResponseDto> messageResponses = messagesForArticle.stream()
-                    .map(messageEntity -> messageMapper.toResponseDto(messageEntity))
-                    .collect(Collectors.toList());
-
-            articleResponse.setMessages(messageResponses);
-
-            // 결과 리스트에 추가 (리스트를 중복해서 추가)
-            for (int i = 0; i < messagesForArticle.size(); i++) {
-                articleResponses.add(articleResponse);
-            }
-        }
-
-        return articleResponses;
+                    return messageResponseDto;
+                })
+                .collect(Collectors.toList());
     }
+
+
+
 
 
 

@@ -22,6 +22,7 @@ public interface MessageMapper {
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "article.id", target = "articleId")
     //@Mapping(source = "user.nickName", target = "nickName")
+    @Mapping(source = "article.title", target = "articleTitle")
     MessageDto.MessageResponseDto toResponseDto(MessageEntity messageEntity);
 
 
