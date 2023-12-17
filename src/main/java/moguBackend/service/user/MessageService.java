@@ -95,7 +95,7 @@ public class MessageService {
      * 해당 게시물 쪽지 조회
      */
 
-    public List<ArticleDto.ArticleResponseDto> getArticleMessages(Long articleId) {
+    public List<MessageDto.MessageResponseDto> getArticleMessages(Long articleId) {
 
         ArticleEntity articleEntity = articleRepository.findById(articleId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
@@ -106,20 +106,33 @@ public class MessageService {
 
         // 메시지들을 DTO로 변환하여 리스트에 추가
         for (MessageEntity messageEntity : messages) {
-            MessageDto.MessageResponseDto messageResponseDto = messageMapper.toResponseDto(messageEntity);
+            MessageDto.MessageResponseDto messageResponseDto = new MessageDto.MessageResponseDto();
 
+            messageResponseDto.setArticleId(messageEntity.getArticle().getId());
             messageResponseDto.setUserId(messageEntity.getUser().getId());
-            //messageResponseDto.setNickName(messageEntity.getUser().getNickName());
+            messageResponseDto.setId(messageEntity.getId());
+            messageResponseDto.setContent(messageEntity.getContent());
+            messageResponseDto.setSender(messageEntity.getSender());
+            messageResponseDto.setReceiver(messageEntity.getReceiver());
+            messageResponseDto.setCreatedAt(messageEntity.getCreatedAt());
+
+            // Receiver의 닉네임을 통해 Receiver의 ID 조회
+            String receiverNickName = messageEntity.getReceiver();
+            Long receiverId = userRepository.findIdByNickName(receiverNickName);
+            messageResponseDto.setReceiverId(receiverId);
+
+            // Sender의 닉네임을 통해 Sender의 ID 조회
+            String senderNickName = messageEntity.getSender();
+            Long senderId = userRepository.findIdByNickName(senderNickName);
+            messageResponseDto.setSenderId(senderId);
+
+            messageDtos.add(messageResponseDto);
+
 
             messageDtos.add(messageResponseDto);
         }
 
-        List<ArticleDto.ArticleResponseDto> result = new ArrayList<>();
-        ArticleDto.ArticleResponseDto articleResponseDto = articleMapper.toResponseDto(articleEntity);
-        articleResponseDto.setMessages(messageDtos);
-        result.add(articleResponseDto);
-
-        return result;
+        return messageDtos;
     }
 
     /**

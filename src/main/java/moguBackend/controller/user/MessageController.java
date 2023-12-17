@@ -53,8 +53,8 @@ public class MessageController {
      */
 
     @GetMapping("/getArticleMessages")
-    public ResponseEntity<List<ArticleDto.ArticleResponseDto>> getArticleMessages(@RequestParam Long articleId) {
-        List<ArticleDto.ArticleResponseDto> articlesWithMessages = messageService.getArticleMessages(articleId);
+    public ResponseEntity<List<MessageDto.MessageResponseDto>> getArticleMessages(@RequestParam Long articleId) {
+        List<MessageDto.MessageResponseDto> articlesWithMessages = messageService.getArticleMessages(articleId);
         return ResponseEntity.ok().body(articlesWithMessages);
     }
 
