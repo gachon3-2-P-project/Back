@@ -48,9 +48,6 @@ public class MessageDto {
 
         private String sender;
 
-        private Long receiverId;
-        private Long senderId;
-
 
 
 

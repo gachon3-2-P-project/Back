@@ -52,9 +52,9 @@ public class MessageController {
      * 게시글Id로 작성된 쪽지 조회
      */
 
-    @GetMapping("/getArticleMessages")
-    public ResponseEntity<List<MessageDto.MessageResponseDto>> getArticleMessages(@RequestParam Long articleId) {
-        List<MessageDto.MessageResponseDto> articlesWithMessages = messageService.getArticleMessages(articleId);
+    @GetMapping("/getAllArticleMessages")
+    public ResponseEntity<List<MessageDto.MessageResponseDto>> getArticleMessages(@RequestParam Long articleId, Long userId) {
+        List<MessageDto.MessageResponseDto> articlesWithMessages = messageService.getAllArticleMessages(articleId, userId);
         return ResponseEntity.ok().body(articlesWithMessages);
     }
 
