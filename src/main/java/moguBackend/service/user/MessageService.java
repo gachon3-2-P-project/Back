@@ -2,6 +2,7 @@ package moguBackend.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moguBackend.common.Transaction;
 import moguBackend.domain.dto.ArticleDto;
 import moguBackend.domain.entity.ArticleEntity;
 import moguBackend.domain.entity.MessageEntity;
@@ -16,6 +17,7 @@ import moguBackend.repository.user.MessageRepository;
 import moguBackend.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -143,19 +145,31 @@ public class MessageService {
         // 해당 사용자가 보낸 메시지 조회
         List<MessageEntity> sentMessages = messageRepository.findBySender(userEntity.getNickName());
 
-        log.info("Number of Sent Messages: {}", sentMessages.size());
+        // 해당 사용자가 받은 메시지 조회
+        List<MessageEntity> receivedMessages = messageRepository.findByReceiver(userEntity.getNickName());
 
-        // 확인된 receiver를 저장하기 위한 Set
-        Set<String> checkedReceivers = new HashSet<>();
+        // 받은 메시지와 보낸 메시지를 합친 후 중복을 제거
+        List<MessageEntity> allMessages = new ArrayList<>();
+        allMessages.addAll(sentMessages);
+        allMessages.addAll(receivedMessages);
 
-        return sentMessages.stream()
+        // 중복 제거를 위한 Set
+        Set<String> checkedMessages = new HashSet<>();
+
+        return allMessages.stream()
                 .filter(messageEntity -> {
-                    // receiver가 중복되면 결과에 추가하지 않음
+
                     String receiver = messageEntity.getReceiver();
-                    if (receiver != null && !checkedReceivers.contains(receiver)) {
-                        checkedReceivers.add(receiver);
-                        return true;
+                    String sender = messageEntity.getSender();
+
+                    if (receiver != null && sender != null) {
+                        String messageKey = receiver + sender;
+                        if (!checkedMessages.contains(messageKey)) {
+                            checkedMessages.add(messageKey);
+                            return true;
+                        }
                     }
+
                     return false;
                 })
                 .map(messageEntity -> {
@@ -168,10 +182,82 @@ public class MessageService {
                         messageResponseDto.setArticleTitle(articleEntity.getTitle());
                     }
 
+                    // receiverId와 senderId 설정
+                    String receiverNickName = messageEntity.getReceiver();
+                    Long receiverId = userRepository.findIdByNickName(receiverNickName);
+                    messageResponseDto.setReceiverId(receiverId);
+
+                    String senderNickName = messageEntity.getSender();
+                    Long senderId = userRepository.findIdByNickName(senderNickName);
+                    messageResponseDto.setSenderId(senderId);
+
                     return messageResponseDto;
                 })
                 .collect(Collectors.toList());
     }
+
+
+    public List<MessageDto.MessageArticleResponseDto> getArticleMessages(
+            @RequestParam(name = "articleId") Long articleId,
+            @RequestParam(name = "userId") Long userId,
+            @RequestParam(name = "senderInputId") Long senderInputId) {
+
+        ArticleEntity articleEntity = articleRepository.findById(articleId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ARTICLE_NOT_EXIST));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        String authorNickName = articleEntity.getUser().getNickName();
+        String userNickName = userEntity.getNickName();
+
+        List<MessageEntity> authorMessages = articleEntity.getMessages().stream()
+                .filter(messageEntity ->
+                        authorNickName.equals(messageEntity.getSender()) || userNickName.equals(messageEntity.getReceiver()))
+                .collect(Collectors.toList());
+
+        List<MessageEntity> userMessages = articleEntity.getMessages().stream()
+                .filter(messageEntity -> userNickName.equals(messageEntity.getSender()) || userNickName.equals(messageEntity.getReceiver()))
+                .collect(Collectors.toList());
+
+        Set<MessageEntity> allMessages = new HashSet<>();
+        allMessages.addAll(authorMessages);
+        allMessages.addAll(userMessages);
+
+        List<MessageDto.MessageArticleResponseDto> messageDtos = allMessages.stream()
+                .filter(messageEntity -> {
+                    String receiverNickName = messageEntity.getReceiver();
+                    Long receiverId = userRepository.findIdByNickName(receiverNickName);
+
+                    String senderNickName = messageEntity.getSender();
+                    Long senderId = userRepository.findIdByNickName(senderNickName);
+
+                    return (senderInputId.equals(receiverId) || senderInputId.equals(senderId))
+                            && (userNickName.equals(messageEntity.getSender()) || userNickName.equals(messageEntity.getReceiver()));
+                })
+                .map(messageEntity -> {
+                    MessageDto.MessageArticleResponseDto messageResponseDto = messageMapper.toArticleResponseDto(messageEntity);
+
+                    String receiverNickName = messageEntity.getReceiver();
+                    Long receiverId = userRepository.findIdByNickName(receiverNickName);
+                    messageResponseDto.setReceiverId(receiverId);
+
+                    String senderNickName = messageEntity.getSender();
+                    Long senderId = userRepository.findIdByNickName(senderNickName);
+                    messageResponseDto.setSenderId(senderId);
+
+                    Transaction transactionStatus = articleEntity.getTransactionStatus();
+                    messageResponseDto.setTransactionStatus(transactionStatus);
+
+                    return messageResponseDto;
+                })
+                .sorted(Comparator.comparingLong(MessageDto.MessageArticleResponseDto::getId))
+                .collect(Collectors.toList());
+
+        return messageDtos;
+    }
+
+
 
 
 

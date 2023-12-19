@@ -46,18 +46,6 @@ public class MessageController {
 //        return ResponseEntity.ok().body(messages);
 //    }
 
-
-
-    /**
-     * 게시글Id로 작성된 쪽지 조회
-     */
-
-    @GetMapping("/getAllArticleMessages")
-    public ResponseEntity<List<MessageDto.MessageResponseDto>> getArticleMessages(@RequestParam Long articleId, Long userId) {
-        List<MessageDto.MessageResponseDto> articlesWithMessages = messageService.getAllArticleMessages(articleId, userId);
-        return ResponseEntity.ok().body(articlesWithMessages);
-    }
-
     /**
      * 쪽지 삭제
      */
@@ -98,6 +86,17 @@ public class MessageController {
         List<MessageDto.MessageResponseDto> messageResponses = messageService.getArticleSenderMessages(articleId, userId);
         return ResponseEntity.ok(messageResponses);
 
+    }
+
+    /**
+     * 게시물 작성자와 1:1 대화 내용
+     */
+
+    @GetMapping("/getArticleMessages")
+    public ResponseEntity<List<MessageDto.MessageArticleResponseDto>> getArticleMessages(@RequestParam Long articleId, Long userId, Long senderInputId) {
+        List<MessageDto.MessageArticleResponseDto> articlesWithMessages = messageService.getArticleMessages(articleId, userId, senderInputId);
+
+        return ResponseEntity.ok().body(articlesWithMessages);
     }
 
 
